@@ -14,7 +14,7 @@ Dependencies
 Team
 ----
 
-* Christopher Cocchi-Perrier [ccocchi](http://github.com/ccocchi)
+* Christopher Cocchi-Perrier [(ccocchi)](http://github.com/ccocchi)
 * Vincent Coquart
 * Julien Delhommeau
 * Vincent Lechemin

@@ -1,0 +1,29 @@
+<div id="vippage" class="content-box">
+<div class="top-left"></div>
+<div class="top-right"></div>
+<h1></h1>
+<div style="padding: 10px">
+	<?php 
+		if ($this->success == false) : 
+	?>
+	Erreur.
+	<?php else :  
+		if ($this->vip) :
+	?>
+	
+	Ton compte est maintenant un compte VIP.
+	<br />
+	<?php 
+		else  : 
+	?>
+	Tu viens de gagner 1000 points.
+	<?php
+		endif;
+	endif;
+	
+	?>
+</div>
+<div class="bottom-left"></div>
+<div class="bottom-right"></div>
+<div class="clear"></div>
+</div>

@@ -1,0 +1,111 @@
+<script type="text/javascript">
+	var selector = { sexe: '', age: '' };
+	var hash = "<?php echo $this->hash; ?>";
+	function disableSelection(target){
+	if (typeof target.onselectstart!="undefined")
+		target.onselectstart=function(){return false;};
+	else if (typeof target.style.MozUserSelect!="undefined")
+		target.style.MozUserSelect="none";
+	else
+		target.onmousedown=function(){return false;};
+	target.style.cursor = "default";
+	}
+
+	$(document).ready(function() {
+		function mousee () {
+			$("#votes").fadeIn(500);
+		}
+		$("#vote").mouseenter(mousee);
+		$("#votes").mouseleave(function () {
+			$(this).fadeOut(500);
+		});
+		$("#votes > span").mouseover(function () {
+			$(this).effect("bounce", { times: 1, distance: 7 }, 500 );
+		});
+		disableSelection(document.getElementById("buttons"));
+		$("#votes > span").click(function () {
+			$("#vote").stop().unbind();
+			$("#vote .label").html("En cours de vote").parent().addClass("voted");
+			$.getJSON("<?php echo $this->baseUrl('vote/'); ?>" + escape(hash)
+					+ '/' + $(this).attr("id").charAt(6) + '?key=' + escape('<?php echo $this->fbid?>')
+					, function(data) {
+				$("#votes").hide();
+				$("#vote .label").html("Ton vote a &eacute;t&eacute; valid&eacute;");
+			});
+		});
+		$("#next").click(function () {
+			$('#img > img').stop().animate({ opacity: 0.5 }, 500);
+			$.getJSON('<?php echo $this->baseUrl('next'); ?>' + '?key=' + escape('<?php echo $this->fbid?>')
+					, { data: selector }, function(data) {
+				hash = data.hash;
+				$("#img").html("<img src='" + data.path + "' /><p><a href='<?php echo $this->serverUrl('user/profile/') ?>" + data.username + "' target='_top'>" + data.username + "</a></p>");
+				//$("#votes").show();
+				$("#vote .label").html("Vote").parent().removeClass("voted");
+				$("#flash .label").html("Flash").parent().removeClass("flashed");
+				$("#vote").mouseenter(mousee);
+			});
+		});
+		$("#flash").click(function () {
+			$("#flash .label").html("Flashing").parent().addClass("flashed");
+			$.getJSON('<?php echo $this->baseUrl('flash/'); ?>' + escape(hash) + '?key=' + escape('<?php echo $this->fbid?>')
+					, function(data) {
+				$("#flash .label").html("Flashed");
+				flash_point();
+			});
+		});
+		$("#isexef").change(function () {
+			selector.sexe = this.value;
+		});
+		$("#isexeh").change(function () {
+			selector.sexe = this.value;
+		});
+		$("#iage").change(function () {
+			selector.age = this.value;
+		});
+	});
+</script>
+<div id="matching">
+	<!--
+	<div id="selector">
+		<div id="arrow"></div>
+		<div id="specs" class="content-box">
+			<div class="field" style="padding-bottom:0px;margin-bottom:0px;">
+				<label for="isexeh">Homme</label>
+				<input id="isexeh" type="radio" name="sexe" value="true" />
+			</div>
+			<div class="field" style="padding-top:0px;padding-bottom:0px;margin-top:0px;">
+				<label for="isexef">Femme</label>
+				<input id="isexef" type="radio" name="sexe"  value="false" />
+			</div>
+			<div class="field">
+				<label for="iage">Age</label><input id="iage" type="text" />
+			</div>
+			<div class="field">
+				<label for="icity">Ville</label><input id="icity" type="text"/>
+			</div>
+			<div class="field">
+				<label for="ilike">Aime</label><input id="ilike" type="text"/>
+			</div>
+			<div class="field">
+				<label for="idislike">Aime pas</label><input id="idislike" type="text"/>
+			</div>
+		</div>
+	</div>
+	-->
+	<div id="img">
+		<img src="<?php echo $this->picture; ?>" />
+		<p><?php echo $this->linkTag($this->username, array('username' => $this->username), 'user') ?></p>
+	</div>
+	<div id="buttons">
+		<div class="button-extern cntflash"><div id="flash"><div class="label">Flash</div></div></div>
+		<div class="button-extern"><div id="vote">
+			<div id="votes">
+				<span id="heart-1"></span>
+				<span id="heart-2"></span>
+				<span id="heart-3"></span>
+			</div>
+			<div class="label">Vote</div>
+		</div></div>
+		<div class="button-extern"><div id="next"><div class="label">Next</div></div></div>
+	</div>
+</div>

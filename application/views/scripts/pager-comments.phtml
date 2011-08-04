@@ -1,0 +1,19 @@
+<?php if ($this->pageCount): ?>
+<ul id="pager">
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php $link = ($page == $this->current) ? 'selected' : ''; ?>
+  <li class="<?php echo $link; ?>"><?php echo $page; ?></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+ 
+<script type="text/javascript">
+$('#comments li').click(function() {
+	$("#comments-container").addClass("transparent");
+	$("#loading").show();
+	$("#comments li").removeClass("selected");
+	$(this).addClass("selected");
+	$.getJSON(url + '/' + user + '/' + $(this).text(),
+			{ 'key': key }, refreshContent);
+});
+</script>

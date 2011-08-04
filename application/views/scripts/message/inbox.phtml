@@ -1,0 +1,65 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		//$("#inbox_wrapper table tr").click(function () {
+			//top.location.href = $(this).children("td.subject-cell").children("a").first().attr("href");
+		//});
+		$('#inbox_wrapper table td.delete-cell div').click(function() {
+			var tid = $(this).attr('id').slice($(this).attr('id').lastIndexOf('-') + 1);
+			var tr = $(this).parent().parent();
+			$.post('<?php echo $this->baseUrl('delete')?>',
+					{id: tid, key: '<?php echo $this->key ?>'},
+					function(data) {
+						tr.remove();
+					});
+		});
+	});
+</script>
+<div id="inbox" class="content-box">
+	<div class="top-left"></div>
+	<div class="top-right"></div>
+	<div id="title-message"></div>
+	<div>
+		<div class="links">
+			<?php echo $this->linkTag('Nouveau message', array('controller' => 'message', 'action' => 'new'))?>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div id="inbox_wrapper">
+		<table>
+		<?php if (count($this->threads)) :?>
+		<?php foreach($this->threads as $thread) :?>
+			<tr class="<?php echo ($thread['read'] ? 'read' : 'unread') ?>">
+				<td></td>
+				<td style="font-size:0.8em">
+				<?php echo $thread['contact']?>
+				</td>
+				<td class="subject-cell">
+				<?php echo $this->linkTag($this->escape($thread['subject']), array(
+					'controller' => 'message', 
+					'action' => 'show', 
+					'id' => $thread['thread_id'])); ?> 
+				</td>
+				<td class="date-cell">
+				<?php echo $this->linkTag($thread['date'], array(
+					'controller' => 'message', 
+					'action' => 'show', 
+					'id' => $thread['thread_id'])); ?>
+				</td>
+				<td class="delete-cell">
+				<div id="th-<?php echo $thread['thread_id']?>" style="cursor:pointer">
+					<img src="<?php echo $this->baseUrl('images/cross.png') ?>" alt="cross" height="20" />
+				</div>
+				</td>
+			</tr>
+		<?php endforeach;?>
+		<?php else :?>
+			<tr>
+				<td style="text-align:center">Vous n'avez aucun nouveau message.</td>
+			</tr>
+		<?php endif;?>
+		</table>
+	</div>
+	<div class="bottom-left"></div>
+	<div class="bottom-right"></div>
+	<div class="clear"></div>
+</div>

@@ -1,0 +1,14 @@
+<div>
+	<h4>Tous les concours</h4>
+	<ul>
+	<?php foreach ($this->contests as $contest) : ?>
+		<li><h5><?php echo $contest->title; ?></h5>
+		<p><?php echo $contest->description; ?></p>
+		<p>De <?php echo $contest->date_begin; ?> à <?php echo $contest->date_end; ?></p>
+		</li>
+	<?php endforeach; ?>
+	</ul>
+	<?php echo $this->LinkTag ('Retour', 
+	array('controller' => 'admin', 'action' => 'index')); ?>
+</div>
+		

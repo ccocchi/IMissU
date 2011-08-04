@@ -1,0 +1,52 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#contest span.use-photo').parent().hide();
+
+		if (!$('#content .selected').length) {
+			$('#contest img.photoGrid_image').mouseenter(function () {
+				$(this).parent().next().fadeIn(500);
+			});
+			$('#contest img.photoGrid_image').mouseleave(function () {
+				$(this).parent().next().fadeOut(700);
+			});
+		}
+
+			$('.button-photo').click(function() {
+			var id = $(this).attr('id');		
+			$.getJSON("<?php echo $this->baseUrl('ajax/usephoto/id') ?>/" + id + "?key=<?php echo urlencode($this->key)?>",
+			function(data) {
+				top.location.href = "<?php echo $this->serverUrl('user/profile'); ?>";
+			});
+		});
+	});
+</script>
+<p>Upload une nouvelle photo</p>
+<?php echo $this->form ?>
+<div id="profile" class="content-box">
+		<div class="top-left"></div>
+		<div class="top-right"></div>
+		<h4 style="margin-left: 15px;">Modifie ta photo de profil</h4>
+		<div id="photo_wrapper">
+			<?php if ($this->pictures->count()):?>
+			<div class="photoGrid_table">
+			<?php 
+				foreach($this->pictures as $picture):
+				?>
+					<div class="photoGrid_cell">
+						<span class="photoGrid_cell_img" style="margin-left: 10px;">
+							<?php echo $this->userImageTag($this->user->fbid, $picture->photo_id, 'jpg', 'small'); ?>
+							 <span id="<?php echo $picture->photo_id; ?>" class="button-photo">Utiliser</span>
+						 </span>
+					</div>
+				<?php
+				endforeach;
+				?>
+			</div>
+			<div class="clear"></div>
+			<?php endif; ?>
+		</div>
+		<div class="bottom-left"></div>
+		<div class="bottom-right"></div>
+		<div class="clear"></div>
+</div>
+

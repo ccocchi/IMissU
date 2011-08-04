@@ -1,0 +1,40 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		   		$("#vip").click(function (){ 
+			top.location.href = "<?php echo $this->serverUrl() . 'vip'; ?>";
+		   		$("#lien-dedi").click(function (){ 
+			top.location.href = "<?php echo $this->serverUrl() . 'vip'; ?>";
+		});
+	});
+</script>
+
+<div id="index">
+	<div id="index-side">
+		<div id="<?php if ($this->_self->isvip) : ?>is_<?php endif; ?>vip"></div>
+
+		<!-- la photo est a refaire, il faut la centrer, je ne peut pas tester pour le moment car l'upload de photo est morte... -->
+		<div id="random" class="content-box">
+			<div class="title">&nbsp;</div>		
+			<?php echo $this->linkTag($this->UserImageTag($this->nextPhotoUser->fbid, $this->nextPhotoUser->miniature_id, 'jpg', "classement"), array('controller' => 'matching', 'action' => 'random', 'nickname' => $this->nextPhotoUser->nickname)); ?>
+		</div>
+	</div>
+	<div id="index-main">
+		<div id="welcome" class="content-box">
+			<div class="top-left"></div>
+			<div class="top-right"></div>
+			<div class="bottom-left"></div>
+			<div class="bottom-right"></div>
+			<p>Bienvenu sur la nouvelle application ImissU !</p>
+			<p>Viens participer au concours de photo du moment, demandes à tes amis de venir voter pour toi et deviens la nouvelle idole de Facebook !</p>
+		</div>
+		<div id="register">
+			<a href="<?php echo $this->serverUrl("user/subscribe");?>" target="_top"></a>
+		</div>
+		<div id="mass" class="content-box">
+			<?php foreach ( $this->userAccueil as $user ) :?>
+				<div><?php echo $this->linkTag($this->UserImageTag($user->fbid, $user->miniature_id, 'jpg', 'mini'), array('controller' => 'user', 'action' => 'profile', 'username' => $user->nickname)); ?></div>
+			<?php endforeach; ?> 
+		</div>
+	</div>
+
+</div>

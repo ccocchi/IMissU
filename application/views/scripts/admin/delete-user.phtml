@@ -1,0 +1,14 @@
+<div>
+	<h4>Supprimer un utilisateur</h4>
+	<ul>
+	<?php foreach ($this->users as $user) : ?>
+		<li><?php echo $user->user_id; ?> <?php echo $user->nickname; ?>
+		<?php echo $this->linkTag('X', array('controller' => 'admin', 'action' => 'del', 'id' => $user->user_id)); ?>
+		</li>
+	<?php endforeach; ?>
+	</ul>
+	<?php echo $this->LinkTag ('Retour', 
+	array('controller' => 'admin', 'action' => 'index')); ?>
+	
+</div>
+		

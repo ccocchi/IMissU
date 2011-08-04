@@ -1,0 +1,53 @@
+<script type="text/javascript">
+
+	$(document).ready(function() {
+				$('.uservote').click(function() {
+					var name = $(this).attr('id').slice($(this).attr('id').lastIndexOf('_') + 1);	
+					$.fancybox.showActivity();
+					$.getJSON("<?php echo $this->baseUrl('votegeneral') ?>/" + name + "?key=<?php echo urlencode($this->key)?>",
+					function(data) {
+						if (data.res == true) {
+							var vote = parseInt($("#vote_" + name).html());
+							var id = "#vote_" + name;
+							$(id).html(vote + 5);
+							vote_point();
+						}
+						$.fancybox(data.message);
+					});
+				});
+	});
+</script>
+
+<div>
+	<div>
+		<div id="ranking" class="content-box">
+		<div class="top-left"></div>
+		<div class="top-right"></div>
+		<h1></h1>
+		<div id="loading"><img src="<?php echo $this->baseUrl('images/loading.gif'); ?>" /></div>
+		<div id="photo_wrapper">
+			<?php if ($this->paginator->count()) :?>
+			<div class="photoGrid_table">
+			<?php 
+				foreach($this->paginator as $user) :
+				?>
+					<div class="photoGrid_cell">
+						<div class="photoGrid_cell_img"><?php echo $this->linkTag($this->userImageTag ($user->fbid, $user->miniature_id, 'jpg', 'small'), array('controller' => 'user', 'action' => 'profile', 'username' => $user->nickname)); ?></div>
+						<span class='contestant-name'><a href="#"><?php echo $this->linkTag($user->nickname, array('controller' => 'user', 'action' => 'profile', 'username' => $user->nickname)); ?></a></span>
+						<span class='contestant-votes'><a id='<?php echo "vote_" . $user->nickname; ?>' href="#"><?php echo $user->vote; ?> point(s)</a></span>
+					</div>
+				<?php
+				endforeach;
+				?>
+			</div>
+			<div class="clear"></div>
+			<?php echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    'page.phtml'); ?>
+			<?php endif;?>
+		</div>
+		<div class="bottom-left"></div>
+		<div class="bottom-right"></div>
+		</div>
+	</div>
+</div>

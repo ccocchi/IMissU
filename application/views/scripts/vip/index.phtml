@@ -1,0 +1,152 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("a#inline").fancybox({
+		'hideOnContentClick': true
+	});
+
+});
+</script>
+<style>
+#contenu-label
+{
+	display: none;
+}
+</style>
+<?php if ($this->user->is_vip) : ?>
+<div id="vippage" class="content-box">
+<div class="top-left"></div>
+<div class="top-right"></div>
+<h1></h1>
+<div style="padding: 10px;">
+<h2 class="vip-dedi"></h2>
+<?php echo $this->form; ?>
+<h2 class="vip-vote"></h2>
+<ul>
+<?php foreach ($this->voters as $voter) : ?>
+	<li><?php echo $this->linkTag($voter->nickname, array('controller' => 'user', 'action' => 'profile', 'username' => $voter->nickname)); ?>
+	: <?php echo $voter->sum?> points</li>
+	<?php endforeach; ?>
+</ul>
+
+<h2 class="vip-favoris"></h2>
+<ul>
+<?php foreach ($this->favorites as $favori) : ?>
+	<li><?php echo $this->linkTag($favori->nickname, array('controller' => 'user', 'action' => 'profile', 'username' => $favori->nickname)); ?></li>
+	<?php endforeach; ?>
+</ul>
+</div>
+<div class="bottom-left"></div>
+<div class="bottom-right"></div>
+<div class="clear"></div>
+</div>
+<?php endif; ?>
+
+<div id="vippage" class="content-box">
+<div class="top-left"></div>
+<div class="top-right"></div>
+<h1></h1>
+
+
+<div style="padding: 15px; width: 100%">
+<h2 class="vip-achete"></h2>
+<a id="inline" href="#vip">Compte <strong>VIP</strong></a>
+<a id="inline" href="#points">Compte <strong>POINTS</strong></a>
+<div style="display:none">
+	<div id="vip">
+	<table border="0" width="436" height="411" style="border: 1px solid #E5E3FF;" cellpadding="0" cellspacing="0">
+	 <tr>
+	  <td colspan="2" width="436">
+	   <table width="436" border="0" cellpadding="0" cellspacing="0">
+	    <tr height="27">
+	     <td width="127" align="left" bgcolor="#D0D0FD">
+	      <a href="http://www.allopass.com/" target="_blank"><img src="http://payment.allopass.com/imgweb/common/access/logo.gif" width="127" height="27" border="0" alt="Allopass"></a>
+	     </td>
+	         <td width="309" align="right" bgcolor="#D0D0FD">
+	      <font style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: #000084; font-style : none; font-weight: bold; text-decoration: none;">
+	       Solution de micro paiement sécurisé<br>Secure micro payment solution
+	      </font>
+	     </td>
+	    </tr>
+	    <tr height="30">
+	     <td colspan="2" width="436" align="center" valign="middle" bgcolor="#F1F0FF">
+	      <font style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; color: #000084; font-style : none; font-weight: bold; text-decoration: none;">
+	       Pour acheter ce contenu, insérez le code obtenu en cliquant sur le drapeau de votre pays      </font>
+	      <br>
+	      <font style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; color: #5E5E90; font-style : none; font-weight: bold; text-decoration: none;">
+	       To buy this content, insert your access code obtained by clicking on your country flag
+	      </font>
+	     </td>
+	    </tr>
+	        <tr height="2"><td colspan="2" width="436" bgcolor="#E5E3FF"></td></tr>
+	   </table>
+	  </td>
+	 </tr>
+	 <tr height="347">
+	  <td width="284">
+	   <iframe name="APsleft"  width="284" height="347" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="http://payment.allopass.com/acte/scripts/iframe/left.apu?ids=215470&amp;idd=851062&amp;lang=fr&amp;recall=1&amp;datas=1"></iframe>
+	  </td>
+	  <td width="152">
+	   <iframe name="APsright" width="152" height="347" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="http://payment.allopass.com/acte/scripts/iframe/right.apu?ids=215470&amp;idd=851062&amp;lang=fr&amp;recall=1&amp;datas=1"></iframe>
+	  </td>
+	 </tr>
+	 <tr height="5"><td colspan="2" bgcolor="#D0D0FD" width="436"></td></tr>
+	</table>
+	</div>
+</div>
+
+<div style="display:none">
+	<div id="points">
+	<table border="0" width="436" height="411" style="border: 1px solid #E5E3FF;" cellpadding="0" cellspacing="0">
+	 <tr>
+	  <td colspan="2" width="436">
+	   <table width="436" border="0" cellpadding="0" cellspacing="0">
+	    <tr height="27">
+	     <td width="127" align="left" bgcolor="#D0D0FD">
+	      <a href="http://www.allopass.com/" target="_blank"><img src="http://payment.allopass.com/imgweb/common/access/logo.gif" width="127" height="27" border="0" alt="Allopass"></a>
+	     </td>
+	         <td width="309" align="right" bgcolor="#D0D0FD">
+	      <font style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: #000084; font-style : none; font-weight: bold; text-decoration: none;">
+	       Solution de micro paiement sécurisé<br>Secure micro payment solution
+	      </font>
+	     </td>
+	    </tr>
+	    <tr height="30">
+	     <td colspan="2" width="436" align="center" valign="middle" bgcolor="#F1F0FF">
+	      <font style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; color: #000084; font-style : none; font-weight: bold; text-decoration: none;">
+	       Pour acheter ce contenu, insérez le code obtenu en cliquant sur le drapeau de votre pays      </font>
+	      <br>
+	      <font style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; color: #5E5E90; font-style : none; font-weight: bold; text-decoration: none;">
+	       To buy this content, insert your access code obtained by clicking on your country flag
+	      </font>
+	     </td>
+	    </tr>
+	        <tr height="2"><td colspan="2" width="436" bgcolor="#E5E3FF"></td></tr>
+	   </table>
+	  </td>
+	 </tr>
+	 <tr height="347">
+	  <td width="284">
+	   <iframe name="APsleft"  width="284" height="347" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="http://payment.allopass.com/acte/scripts/iframe/left.apu?ids=215470&amp;idd=851062&amp;lang=fr&amp;recall=1"></iframe>
+	  </td>
+	  <td width="152">
+	   <iframe name="APsright" width="152" height="347" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="http://payment.allopass.com/acte/scripts/iframe/right.apu?ids=215470&amp;idd=851062&amp;lang=fr&amp;recall=1"></iframe>
+	  </td>
+	 </tr>
+	 <tr height="5"><td colspan="2" bgcolor="#D0D0FD" width="436"></td></tr>
+	</table>
+	</div>
+</div>
+
+
+</div>
+
+
+<div class="clear"></div>
+
+<div class="bottom-left"></div>
+<div class="bottom-right"></div>
+<div class="clear"></div>
+</div>
+
+

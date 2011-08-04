@@ -1,0 +1,57 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".uservote").click(function() {
+			var name = $(this).attr('id').slice($(this).attr('id').lastIndexOf('_') + 1);	
+			$.fancybox.showActivity();
+			$.getJSON("<?php echo $this->baseUrl('votecontest') ?>/<?php echo $this->contest->contest_id ?>/" + name + "?key=<?php echo urlencode($this->key)?>",
+			function(data) {
+				if (data.res == true) {
+					var id = "#vote_" + name;
+					var vote = parseInt($(id).html());
+					$(id).html(vote + 1);
+					vote_point();
+				}
+				$.fancybox(data.message);
+			});
+		});
+	});
+</script>
+<h3><?php echo $this->contest->title ?>
+</h3>
+<?php if ($this->isSubscribe) : ?>
+<p><?php echo $this->linkTag('Se désinscrire', array('controller' => 'contest', 'action' => 'unsubscribe', 'id' => $this->contest->contest_id))?></p>
+<?php endif; ?>
+<div id="contest-vote">
+	<div>
+		<div id="ranking" class="content-box">
+		<div class="top-left"></div>
+		<div class="top-right"></div>
+		<div class="bottom-left"></div>
+		<div class="bottom-right"></div>
+		<h1></h1>
+		<div id="loading"><img src="<?php echo $this->baseUrl('images/loading.gif'); ?>" /></div>
+		<div id="photo_wrapper">
+			<?php if ($this->contestants->count()) :?>
+			<div class="photoGrid_table">
+			<?php 
+				foreach($this->contestants as $contestant) :
+				?>
+					<div class="photoGrid_cell">
+						<div class="photoGrid_cell_img"><?php echo $this->linkTag($this->contestImageTag($this->contest->contest_id, $contestant->user_id, 'jpg', 'small'), array('controller' => 'user', 'action' => 'profile', 'username' => $contestant->nickname)); ?></div>
+						<span class='contestant-name'><?php echo $this->linkTag($contestant->nickname, array('controller' => 'user', 'action' => 'profile', 'username' => $contestant->nickname)); ?></span>
+						<span class="contestant-votes">
+							<a href="#"><span id="<?php echo "vote_" . $contestant->nickname ?>"><?php echo $contestant->vote ?></span> vote(s)</a>
+						</span>
+						<div class="uservote" id="<?php echo "name_" . $contestant->nickname; ?>">vote</div>
+					</div>
+				<?php
+				endforeach;
+				?>
+			</div>
+			<?php endif; ?>
+			<div class="clear"></div>
+		</div>
+		</div>
+	</div>
+</div>
+

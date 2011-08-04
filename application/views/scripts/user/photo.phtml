@@ -1,0 +1,29 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#profile-photo a').fancybox();
+	});
+</script>
+
+
+<div id="show-photo">
+	<div style="margin: 0 0 5px 0">
+		<?php if ($this->isSelf) :?>
+		<div id="profile-photo">
+			<a href="<?php echo $this->baseUrl('setprofile'); ?>?pid=<?php echo $this->picture['photo_id'];?>&key=<?php echo urlencode($this->key) ?>">
+			Définir comme photo de profil
+			</a>
+		<?php //echo $this->linkTag('Définir comme photo de profil', array('controller' => 'user', 'action' => 'setprofile', 'id' => $this->picture['photo_id']))?>
+		</div>
+		<?php endif;?>
+		<div>
+		<?php echo $this->linkTag('Revenir aux photos de ' . $this->user->nickname, array(
+			'username' => $this->user->nickname), 'user'); ?>
+		</div>
+	</div>
+	<div id="photo_wrapper">
+	<?php
+		echo $this->userImageTag($this->user->fbid, $this->picture['photo_id'], 'jpg');
+	?>
+	</div>
+</div>
+

@@ -1,0 +1,13 @@
+<?php
+echo $this->linkTag('Ajout Utilisateur', 
+	array('controller' => 'admin', 'action' => 'addUser'));
+?><br/><?php
+echo $this->linkTag('Supprimer Utilisateur', 
+	array('controller' => 'admin', 'action' => 'listUser'));
+?><br/><?php
+echo $this->linkTag('Ajout Concours', 
+	array('controller' => 'admin', 'action' => 'addContest'));
+?><br/><?php
+echo $this->linkTag('Liste Concours', 
+	array('controller' => 'admin', 'action' => 'listContest'));
+?>

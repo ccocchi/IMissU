@@ -1,0 +1,48 @@
+<?php if (count($this->errorMessages)) :?>
+<div id="flash_error">
+	<ul>
+	<?php foreach($this->errorMessages as $error) : ?>
+		<li><?php echo $error ;?></li>
+	<?php endforeach;?>
+	</ul>
+</div>
+<?php endif;?>
+
+<div id="contests" class="content-box">
+	<div class="top-left"></div>
+	<div class="top-right"></div>
+	<h1></h1>
+	<?php foreach($this->contests as $contest) :?>
+	<div class="contest-container">
+		<div class="contest-desc">
+			<h4><?php echo $contest->title?></h4>
+			<p><?php echo $contest->description?></p>
+			<div class="contest_links">
+				<?php if (!isset($this->i_participate[$contest->contest_id])): ?>
+				<?php echo $this->linkTag('Participer', array('controller' => 'contest', 'action' => 'subscribe', 'id' => $contest->contest_id))?> |
+				<?php endif;?>
+				<?php echo $this->linkTag('Acc&eacute;der', array('controller' => 'contest', 'action' => 'show', 'id' => $contest->contest_id)) ?>
+			</div>
+		</div>
+		
+		<div class="contest-pictures">
+			<?php $i = 0; ?>
+			<?php foreach ($this->pictures[$contest->contest_id] as $pict) :?>
+				<?php if ($i > 6) : ?>
+					<?php break; ?>
+				<?php endif; $i++; ?>
+					<?php echo $this->linkTag($this->contestImageTag($contest->contest_id, $pict->user_id, 'jpg', 'mini'), array('controller' => 'user', 'action' => 'profile', 'username' => $pict->nickname)); ?>
+			<?php endforeach; ?>
+			<?php while ($i < 6) : ?>
+				<?php $i++; ?>
+		<!--		<div><img src="<?php echo $this->baseUrl("images/tn.png"); ?>" /></div>-->
+			<?php endwhile; ?>
+
+		</div>
+		<div class="clear"></div>
+	</div>
+	<?php endforeach;?>
+	<div class="clear"></div>
+		<div class="bottom-left"></div>
+	<div class="bottom-right"></div>
+</div>

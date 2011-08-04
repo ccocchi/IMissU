@@ -1,0 +1,22 @@
+<script type="text/javascript">
+$('#paginationControl').change(function() {
+    top.location = this.options[this.selectedIndex].value;
+})
+</script>
+<?php if ($this->pageCount): ?>
+<select id="paginationControl" size="1">
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php $selected = ($page == $this->current) ? ' selected="selected"' : ''; ?>
+  <?php $path = $this->url(array('page' => $page));
+		$array = explode('/', $path);
+		$narray = array();
+		for($i = 3; $i < count($array); $i++)
+			$narray[] = $array[$i];
+		$realpath = implode('/', $narray);?>
+  <option value="<?php echo $this->serverUrl($realpath); ?>"
+          <?php echo $selected ?>>
+    <?php echo $page; ?>
+  </option>
+<?php endforeach; ?>
+</select>
+<?php endif; ?>

@@ -1,0 +1,11 @@
+<?php
+ if ($this->paginator->count()): ?>
+<ul>
+<?php foreach ($this->paginator as $item) : ?>
+  <li><?php echo ($item['nickname']); ?></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+<?php 
+echo $this->paginationControl(null, 'Elastic', 'page.phtml');
+?>

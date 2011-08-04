@@ -1,0 +1,48 @@
+<script type="text/javascript">
+var url = "<?php echo $this->url ? $this->url : $this->baseUrl('users'); ?>";
+var type = "<?php echo $this->type; ?>";
+var key = "<?php echo $this->key; ?>";
+
+function buildContent(data) {
+	var html = "";
+	for (u in data) {
+		html += "<div class='photoGrid_cell'>";
+		html += "<span class='photoGrid_cell_img'><img src='" + data[u].path + "' /></span>";
+		html += "<a href='#' class='contestant-name'><span>" + u + "</span></a>";
+		html += "<a href='#' class='contestant-votes'><span>Votes: " + data[u].votes + "</span></a>";
+		html += "</div>";
+	}
+	$("#photo_wrapper .photoGrid_table").html(html).removeClass("transparent");
+	$("#loading").hide();
+};
+</script>
+
+<div>
+	<h4>Classement G&eacute;n&eacute;ral</h4>
+	<div>
+		<div id="ranking">
+		<div id="loading"><img src="<?php echo $this->baseUrl('images/loading.gif'); ?>" /></div>
+		<div id="photo_wrapper">
+			<?php if ($this->paginator->count()) :?>
+			<div class="photoGrid_table">
+			<?php 
+				foreach($this->paginator as $user) :
+				?>
+					<div class="photoGrid_cell">
+						<span class="photoGrid_cell_img"><?php echo $this->userImageTag ($user->fbid, $user->miniature_id, 'jpg', 'small'); ?></span>
+						<a href="#" class='contestant-name'><span><?php echo $user->nickname; ?></span></a>
+						<a href="#" class='contestant-votes'><span>Votes: <?php echo $user->vote; ?></span></a>
+					</div>
+				<?php
+				endforeach;
+				?>
+			</div>
+			<div class="clear"></div>
+			<?php echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    'page.phtml'); ?>
+			<?php endif;?>
+		</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,254 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#comment-form').find('form').hide();
+        $("#show-post").click(function() {
+        	$('#comment-form').find('form').toggle(800);
+        });
+       $('.link-fancy').fancybox({scrolling: 'no'});
+        
+        $('#comments .comment .del').click(function(){
+        	var id = $(this).attr('id').slice($(this).attr('id').lastIndexOf('_') + 1);
+			$.getJSON("<?php echo $this->baseUrl('delcomment') ?>/" + id + "?key=<?php echo urlencode($this->key)?>",
+				function(data) {
+			
+			});
+        	$(this).parent().slideUp(400, function(){
+		        $(this).remove();
+        	});
+        });
+        
+
+
+	});
+	var url = "<?php echo $this->url ? $this->url : $this->baseUrl('comments'); ?>";
+	var user = "<?php echo $this->user->user_id; ?>";
+	var key = "<?php echo $this->key; ?>";
+
+	function refreshContent(data) {
+		var html = "";
+		for (u in data) {
+			html += "<div class='comment'>";
+			html += "<img src='" + data[u].thumb + "' />";
+			html += "<div><span>";
+			html += "<span class='username'>" + data[u].name + "</span>";
+			html += ", le " + data[u].date;
+			html += "</span>";
+			html += "<p>" + data[u].comment + "</p>";
+			html += "<div class='clear'></div>";
+			html += "</div></div>";
+		}
+		$("#comments-container").html(html).removeClass("transparent");
+		$("#loading").hide();
+	};
+
+	
+	function vote () {
+			$.fancybox.showActivity();
+			$.getJSON("<?php echo $this->baseUrl('voteprofile') . '/'
+		 		. urlencode($this->hash) . '?key=' . urlencode($this->key)?>",
+		 					function(data) {
+				if (data.res == true) {
+					var id = "#vote_" + name;
+					var vote = parseInt($(id).html());
+					$(id).html(vote + 1);
+					vote_point();
+				}
+				$.fancybox(data.message);
+			});
+	}
+	
+		function flash () {
+			$.fancybox.showActivity();
+			$.getJSON("<?php echo $this->baseUrl('flashprofile') . '/'
+		 		. urlencode($this->hash) . '?key=' . urlencode($this->key)?>",
+		 					function(data) {
+				if (data.res == true) {
+					var id = "#vote_" + name;
+					var vote = parseInt($(id).html());
+					$(id).html(vote + 1);
+					flash_point();
+				}
+				$.fancybox(data.message);
+			});
+		}
+
+		function partager()
+		{
+			var attachment = { 'media': [{ 'type': 'image',
+					'src': 'http://93.184.47.238/imiss/public/images/facebook/1.png',
+					'href': 'http://apps.facebook/com/imissu_hom/'}], 'name': 'I miss U', 'description': 'Je souhaite devenir premier au concours I miss U !! Viens me rejoindre !', 'href': 'http://apps.facebook.com/imissu_hom/'
+			};
+			FB.Connect.streamPublish('ImissU', attachment, null, 631999522,
+			null,
+			null,
+			true);
+		} 
+</script>
+<div id="profile">
+	<div id="picture">
+		<div id="img-cnt">
+			<?php if ($this->isSelf) :?>
+			<div id="change-photo">
+				<?php echo $this->linkTag("Change ta photo", array(
+						'controller' => 'user',
+						'action' => 'changephoto')); ?>
+			</div>
+			<?php
+			endif;
+			if ($this->user->miniature_id):
+				echo $this->userImageTag($this->user->fbid, $this->user->miniature_id, 'jpg', 'profile');
+			else:
+			?>
+				<img src="<?php echo $this->baseUrl('images/user-' . ($this->user->sex ? 'male' : 'female') . '.png'); ?>" style="width: 200px;" />
+			<?php
+			endif;
+			?>
+		</div>
+		<?php if (!$this->isSelf) : ?>
+		<div class="vote-flash">
+			<span class="vote">
+				<a href="javascript: vote();" >Vote</a>
+			</span>
+			<span class="flash">
+				<a href="javascript: flash();">Flash</a>
+			</span>
+		</div>
+		<?php endif; ?>
+		<div class="clear"></div>
+		<?php if (!$this->isSelf) : ?>
+		<div class="normal button-msg">
+			<?php 
+				echo $this->linkTag('Envoyer un message', array('controller' => 'message', 'action' => 'new', 'to' => $this->user->nickname));
+			?>
+		</div>
+		<?php endif;
+			$text = ($this->isSelf ? 'Voir mes photos' : 'Voir ses photos');
+			$class = ($this->isSelf ? 'button-self' : '');
+		?>
+		<div class="normal <?php echo $class?>">
+			<?php 
+				echo $this->linkTag($text, array('username' => $this->user->nickname), 'photos');
+			?>
+		</div>
+		<div class="normal button-fav">
+			<a class="link-fancy" href="<?php echo $this->baseUrl('favorite') . '/'
+		 		. urlencode($this->hash) . '?key=' . urlencode($this->key)?>">Ajouter &agrave; mes favoris</a>
+		</div>
+		<?php if ($this->isSelf) :?>
+		<div class="normal button-fav-self">
+				<?php 
+					echo $this->linkTag('Mes Favoris', array('controller' => 'favorite'));
+				?>
+		</div>
+		<div class="normal button-share">
+				<a href="javascript:partager();">Partager mon profil</a>
+		</div>
+		<?php endif; ?>
+		<div class="button-com">
+			<a id="show-post">Poste un com</a>
+		</div>		
+	</div>
+	
+	<h1 id="username"><?php echo $this->user->nickname ?></h1>
+	<h2 id="agesex">
+		<span><?php echo ($this->user->sex ? 'Homme' : 'Femme')?></span>
+		<?php if ($this->user->birthday) : ?>,
+			<span><?php echo Lib_DateTool::age ($this->user->birthday); ?> ans</span>,
+			signe du <span><?php echo Lib_DateTool::getSignFromDate($this->user->birthday)?></span>
+		<?php endif; ?>
+	</h2>
+	
+	<div id="description" class="content-box">
+		<div class="top-left"></div>
+		<div class="top-right"></div>
+
+		<?php if ($this->isSelf) :?>
+		<div style="float:right;padding-top:0.2em;">
+			<?php echo $this->linkTag('Editer', array('controller' => 'user', 'action' => 'edit'))?>
+		</div>
+		<?php endif;?>
+
+		<div id="details">
+			<div class="bloc">
+				<h3>J'aime</h3>
+				<p><?php echo stripslashes($this->escape($this->user->LIKE))?></p>
+			</div>
+			<div class="bloc">
+				<h3>Je n'aime pas</h3>
+				<p><?php echo stripslashes($this->escape($this->user->dislike))?></p>
+			</div>
+			<div class="bloc">
+				<h3>Moi</h3>
+				<p><?php echo stripslashes($this->escape($this->user->bio))?></p>
+			</div>
+		</div>
+		<?php if ($this->isSelf && false) : ?>
+		<div id="favorites">
+			<h5>Mes favoris :</h5>
+			<ul>
+			<?php foreach($this->favorites as $favor) :?>
+					<li><?php echo $this->linkTag($favor->nickname, array(
+		'controller' => 'user', 'action' => 'profile', 'username' => $favor->nickname
+	));?></li>
+			<?php endforeach; ?>
+			</ul>
+		</div>
+		<?php endif; ?>
+		<?php if ($this->user->is_vip && false) : ?>
+		<div id="voters">
+			<h5>Qui a voté pour moi ?</h5>
+			<ul>
+			<?php foreach($this->voters as $voter) :?>
+					<li><?php echo $this->linkTag($voter->nickname, array(
+		'controller' => 'user', 'action' => 'profile', 'username' => $voter->nickname
+	)); ?> : <?php echo $voter->sum?> points</li>
+			<?php endforeach; ?>
+			</ul>
+		</div>
+		<?php endif; ?>
+		<div class="bottom-left"></div>
+		<div class="bottom-right"></div>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+	<?php if (false) :?>
+		<?php echo $this->linkTag('Photos de ' . $this->user->nickname, array(
+			'controller' => 'user', 'action' => 'photos', 'id' => $this->user->user_id
+		));?><br />
+		<?php if (!$this->isSelf) :?>
+		
+		<?php endif; ?>
+	<?php endif;?>
+	
+	
+		<div id="comment-form" style="background:#fde5b7;width:85%">
+			<?php echo $this->form; ?>
+			<div class="clear"></div>
+		</div>
+		
+		<div id="comments">
+		<?php echo $this->paginationControl($this->comments,
+                                    'Sliding',
+                                    'pager-comments.phtml'); ?>
+		<div id="comments-container">
+			<?php foreach($this->comments as $comment) : ?>
+				<div class="comment">
+					<?php if ($this->isSelf) : ?>
+						<div class="del" id="p_<?php echo $comment->comment_id; ?>" >
+							<img height="20" alt="cross" src="/imissu/public/images/cross.png">
+						</div>
+					<?php endif; ?>
+					<?php echo $this->userImageTag($comment->fbid, $comment->miniature_id, 'jpg', 'mini'); ?>
+					<div>
+						<span>
+						<span class="username"><?php echo $comment['nickname']?></span>
+						, le <?php echo Lib_DateTool::formatSqlDate($comment['date']) ?>
+						</span>
+						<p><?php echo nl2br(stripslashes($this->escape($comment['message']))) ?></p>
+						<div class="clear"></div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</div>

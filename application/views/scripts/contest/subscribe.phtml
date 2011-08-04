@@ -1,0 +1,54 @@
+<script type="text/javascript">
+if ($.browser.mozilla | $.browser.webkit | $.browser.msie & $.browser.version > 8) {
+	$(document).ready(function() {
+		$('#contest span.use-photo').parent().hide();
+
+		if (!$('#content .selected').length) {
+			$('#contest img.photoGrid_image').mouseenter(function () {
+				$(this).parent().next().fadeIn(500);
+			});
+			$('#contest img.photoGrid_image').mouseleave(function () {
+				$(this).parent().next().fadeOut(700);
+			});
+		}
+	});
+}
+</script>
+<p>Uploader une nouvelle photo pour ce concours</p>
+<?php echo $this->form ?>
+<div id="contest" class="content-box">
+		<div class="top-left"></div>
+		<div class="top-right"></div>
+		<h1></h1>
+		<div id="photo_wrapper">
+			<?php if ($this->pictures->count()):?>
+			<div class="photoGrid_table">
+			<?php 
+				foreach($this->pictures as $picture):
+				?>
+					<div class="photoGrid_cell">
+						<span class="photoGrid_cell_img"><?php echo $this->linkTag(
+							$this->userImageTag($this->user->fbid, $picture->photo_id, 'jpg', 'small', array(
+													'class' => 'photoGrid_image')), array(
+													 	'controller' => 'contest',
+														'action' => 'usephoto', 
+														'id' => $picture->photo_id, 
+														'cid' => $this->contest->contest_id)); 
+						 ?></span>
+						<span class='contestant-name'><?php
+				 echo $this->linkTag("Utiliser", array(
+				 	'controller' => 'contest',
+					'action' => 'usephoto', 
+					'id' => $picture->photo_id, 
+					'cid' => $this->contest->contest_id)); ?></span>
+					</div>
+				<?php
+				endforeach;
+				?>
+			</div>
+			<div class="clear"></div>
+			<?php endif; ?>
+		</div>
+		<div class="bottom-left"></div>
+		<div class="bottom-right"></div>
+</div>

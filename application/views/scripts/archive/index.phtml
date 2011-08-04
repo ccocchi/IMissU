@@ -1,0 +1,54 @@
+<div>
+	<h4>Classement général des votes (archives)</h4>
+	<div id="rankings">
+		<div>
+			<h2>Les filles</h2>
+			<div class="top-ranking">
+			<?php 
+			$first = true;
+			foreach ($this->topFemale as $userGeneral) : ?>
+				<div class="<?php echo ($first) ? "first" : "user"; ?>">
+				<div class="user-picture-container"><div class="user-picture">
+				<?php echo $this->linkTag($this->userImageTag ($userGeneral->fbid, $userGeneral->miniature_id, 'jpg', 'small'), array('controller' => 'user', 'action' => 'profile', 'username' => $userGeneral->nickname)); ?>
+				</div></div>
+				<?php if ($first) echo "<span class='crown'><img src='" . $this->baseUrl('/images/crown-female.png') . "' /></span>"; ?>
+				<span class="votes"><?php echo $userGeneral->vote; ?> votes</span>
+				<span class="login"><?php echo $userGeneral->nickname; ?></span>
+				<div class="clear"></div>
+				</div>
+			<?php 
+				$first = false;
+			endforeach; ?>
+			</div>
+			<div class="contest_links">
+				<?php echo $this->linkTag(' ', array('year' => $this->year, 'month' => $this->month, 'gender' => 'female'), 'archive-detail'); ?>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<div>
+			<h2>Les garçons</h2>
+			<div class="top-ranking">
+			<?php 
+			$first = true;
+			foreach ($this->topMale as $userGeneral) : ?>
+				<div class="<?php echo ($first) ? "first" : "user"; ?>">
+				<div class="user-picture-container"><div class="user-picture">
+				<?php echo $this->linkTag($this->userImageTag ($userGeneral->fbid, $userGeneral->miniature_id, 'jpg', 'small'), array('controller' => 'user', 'action' => 'profile', 'username' => $userGeneral->nickname)); ?>
+				</div></div>
+				<?php if ($first) echo "<span class='crown'><img src='" . $this->baseUrl('/images/crown-male.png') . "' /></span>"; ?>
+				<span class="votes"><?php echo $userGeneral->vote; ?> votes</span>
+				<span class="login"><?php echo $userGeneral->nickname; ?></span>
+				<div class="clear"></div>
+				</div>
+			<?php 
+				$first = false;
+			endforeach; ?>
+			</div>
+			<div class="contest_links">
+				<?php echo $this->linkTag(' ', array('year' => $this->year, 'month' => $this->month, 'gender' => 'male'), 'archive-detail'); ?>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>

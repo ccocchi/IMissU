@@ -1,0 +1,79 @@
+<?php if ($this->pictures->count() > 0): ?>
+<script type="text/javascript">
+$(document).ready(function() {
+		$('#photos').galleryView({
+		    panel_width: 630,
+		    panel_height: 540,
+		    frame_width: 100,
+		    frame_height: 100,
+		    overlay_color: '#222',
+		    overlay_text_color: 'white',
+		    caption_text_color: '#222',
+		    background_color: 'transparent',
+		    border: 'none',
+		    nav_theme: 'dark',
+		    easing: 'easeInOutQuad',
+		    pause_on_hover: true,
+		    transition_interval: 9999999999,
+		    show_imgbtn: true,
+		    name : '<?php echo $this->user->nickname ?>'
+		    
+		});
+		$('.del-photo a').click(function (){
+			var pid =$('#photos div.panel:visible .link-container').attr('id');
+			var pid = pid.slice(pid.lastIndexOf('_') + 1);
+			//console.info("<?php echo $this->user->nickname?>");
+			top.location.href = " <?php echo $this->serverUrl('delphoto/'); ?>" + pid + "/<?php echo $this->user->nickname?>";	
+//			tmp.next().click();
+//			tmp.remove();
+//			$('#photos').galleryView.buildFilmstrip();
+		});
+//	$('#photos .panel').hover(
+//			function () {
+//				$('#photos .strip_wrapper').hide(100);
+//			},
+//			function () {
+//				$('#photos .strip_wrapper').show(100);
+//			}
+//	);
+});
+</script>
+<?php endif; ?>
+
+<div id="photos-container">
+	<div>
+	<h3>Photos de <?php echo $this->user->nickname?></h3> <span class="photo-count"><?php echo $this->pictures->count()?> photos</span>
+	</div>
+	<div style="margin: 0 0 5px 0">
+		<?php if ($this->isSelf) :?>
+			<div id="add-photo">
+			<?php echo $this->linkTag('+ Ajouter une photo', array(
+			'controller' => 'user', 'action' => 'picture'))?>
+			</div>
+			<?php if ($this->pictures->count() > 0) : ?>
+				<div class="del-photo">
+					<a href="#">- Supprimer la photo</a>
+				</div>
+			<?php endif; ?>
+		<?php endif;?>
+		<?php echo $this->linkTag('Revenir au profil', array(
+		'username' => $this->user->nickname), 'user'); ?>
+	</div>
+		
+	<div class="content-box">
+		<div class="top-left"></div>
+		<div class="top-right"></div>
+		<?php if ($this->pictures->count() > 0): ?>
+		<ul id="photos">
+		<?php foreach ($this->pictures as $picture) : ?>
+			<li class="frame"><?php echo $this->userImageTag($this->user->fbid, $picture->photo_id, 'jpg'); ?></li>
+		<?php endforeach;?>
+		</ul>
+		<?php else: ?>
+			<div id="no-photo">Aucune photo.</div>
+		<?php endif; ?>
+		<div class="bottom-left"></div>
+		<div class="bottom-right"></div>
+		<div class="clear"></div>
+	</div>
+</div>

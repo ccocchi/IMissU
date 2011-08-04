@@ -1,0 +1,30 @@
+<div>
+	<h4><?php echo $this->contest->title?></h4>
+	<div>
+		<?php $i = 0; ?>
+		<div>
+		<?php if (count ($this->participants) == 0) :?>
+			<p>Pas de participant à ce concours, soyez le premier :)<br/>
+			<?php echo $this->linkTag('inscription', array ('controller' => 'contest', 'action' => 'subscribe', 'id' => $contest->contest_id)); ?>
+			</p>
+		<?php else : ?>
+			<p>Le top 3 du concours :</p>
+		<?php endif; ?>
+		<?php foreach($this->participants as $user) :?>
+			<?php if ($i < 3) : ?>
+				<?php echo $this->linkTag($this->contestImageTag ($this->contest->contest_id, $user->user_id, 'jpg', 'profile'), array('controller' => 'user', 'action' => 'profile', 'username' => $user->nickname)); ?>
+				<?php echo $this->linkTag($user->nickname, array('controller' => 'user', 'action' => 'profile', 'username' => $user->nickname)); ?>:<?php echo $user->vote; ?>
+				<?php if ($i == 2) :?>
+		</div>
+		<div>
+				<?php endif; ?>
+			<?php else : ?>
+				<?php echo $this->linkTag($this->contestImageTag ($this->contest->contest_id, $user->user_id, 'jpg', 'small'), array('controller' => 'user', 'action' => 'profile', 'username' => $user->nickname)); ?>
+				<?php echo $this->linkTag($user->nickname, array('controller' => 'user', 'action' => 'profile', 'username' => $user->nickname)); ?>:<?php echo $user->vote; ?>
+			<?php endif; ?>
+			<?php $i++;?>
+
+		<?php endforeach;?>
+		</div>
+	</div>
+</div>

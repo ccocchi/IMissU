@@ -1,0 +1,25 @@
+<?php if (count($this->errorMessages)) :?>
+<div id="flash_error">
+	<ul>
+	<?php foreach($this->errorMessages as $error) : ?>
+		<li><?php echo $error ;?></li>
+	<?php endforeach;?>
+	</ul>
+</div>
+<?php endif;?>
+<div id="inbox" class="content-box">
+	<div class="top-left"></div>
+	<div class="top-right"></div>
+	<div style="padding: 10px">
+	<h3>Mes favoris</h3>
+		<ul>
+		<?php foreach($this->favorites as $favorite) : ?>
+			<li><?php echo $this->linkTag($favorite->nickname, array(
+				'username' => $favorite->nickname), 'user'); ?></li>
+		<?php endforeach;?>
+		</ul>
+	</div>
+	<div class="bottom-left"></div>
+	<div class="bottom-right"></div>
+	<div class="clear"></div>
+</div>

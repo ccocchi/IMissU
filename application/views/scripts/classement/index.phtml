@@ -1,0 +1,66 @@
+<script type="text/javascript">
+$(document).ready(function () {
+	$("#rankings div.contest_links").click(function () {
+		$(this).unbind('click');
+		$(this).children("a").first().click();
+	});
+});
+</script>
+<div>
+	<div id="rankings">
+		<div id="top-ranking" class="content-box">
+			<div class="top-left"></div>
+			<div class="top-right"></div>
+			<div class="bottom-left"></div>
+			<div class="bottom-right"></div>
+			<div class="title"></div>
+			<div class="user">
+				<?php echo $this->linkTag($this->userImageTag ($this->topFemale[0]->fbid, $this->topFemale[0]->miniature_id, 'jpg', 'classement'), array('controller' => 'user', 'action' => 'profile', 'username' => $this->topFemale[0]->nickname)); ?>
+				<h2><?php echo $this->topFemale[0]->nickname; ?></h2>
+			</div>
+			<div class="user">
+				<?php echo $this->linkTag($this->userImageTag ($this->topMale[0]->fbid, $this->topMale[0]->miniature_id, 'jpg', 'classement'), array('controller' => 'user', 'action' => 'profile', 'username' => $this->topMale[0]->nickname)); ?>
+				<h2><?php echo $this->topMale[0]->nickname; ?></h2>
+			</div>
+		</div>
+		<div class="bottom-ranking content-box" style="clear:left;">
+			<div>
+				<div class="n23">
+				<span>2</span>
+				<?php if ($this->topFemale[1]) : ?>
+					<?php echo $this->linkTag($this->userImageTag ($this->topFemale[1]->fbid, $this->topFemale[1]->miniature_id, 'jpg', 'mini'), array('controller' => 'user', 'action' => 'profile', 'username' => $this->topFemale[1]->nickname)); ?>
+				<?php endif; ?>
+				</div>
+				<div class="n23">
+				<span>3</span>
+				<?php if ($this->topFemale[2]) : ?>
+					<?php echo $this->linkTag($this->userImageTag ($this->topFemale[2]->fbid, $this->topFemale[2]->miniature_id, 'jpg', 'mini'), array('controller' => 'user', 'action' => 'profile', 'username' => $this->topFemale[2]->nickname)); ?>
+				<?php endif; ?>
+				</div>
+			</div>
+			<div class="contest-links">
+				<?php echo $this->linkTag(' ', array('controller' => 'classement', 'action' => 'browseGeneral', 'gender' => 'female')); ?>
+			</div>
+		</div>
+		<div class="bottom-ranking content-box">
+			<div>
+				<div class="n23">
+				<span>2</span>
+				<?php if ($this->topMale[1]) : ?>
+					<?php echo $this->linkTag($this->userImageTag ($this->topMale[1]->fbid, $this->topMale[1]->miniature_id, 'jpg', 'mini'), array('controller' => 'user', 'action' => 'profile', 'username' => $this->topMale[1]->nickname)); ?>
+				<?php endif; ?>
+				</div>
+				<div class="n23">
+				<span>3</span>
+				<?php if ($this->topMale[2]) : ?>
+					<?php echo $this->linkTag($this->userImageTag ($this->topMale[2]->fbid, $this->topMale[2]->miniature_id, 'jpg', 'mini'), array('controller' => 'user', 'action' => 'profile', 'username' => $this->topMale[2]->nickname)); ?>
+				<?php endif; ?>
+				</div>
+			</div>
+			<div class="contest-links">
+				<?php echo $this->linkTag(' ', array('controller' => 'classement', 'action' => 'browseGeneral', 'gender' => 'male')); ?>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>

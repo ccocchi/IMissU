@@ -1,0 +1,106 @@
+<?php echo $this->doctype(); ?>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery-ui-1.8.custom.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery.easing.1.3.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery.timers-1.2.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery.galleryview-2.1.1.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery.fancybox-1.3.1.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery.li-scroller.1.0.js')?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl('styles/version01.css?version=' . time())?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl('styles/galleryview.css?version=' . time()) ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl('styles/fancybox.css') ?>" />
+</head>
+<script type="text/javascript">
+	$(document).ready(function() {
+   		$("#lien-accueil").click(function (){ 
+			top.location.href = "<?php echo $this->serverUrl(); ?>";
+		});
+
+		
+ 	});
+ 			
+		function update_points(pts)
+		{
+			var money = parseInt($("#money >span").html());
+			$("#money > span").html(money + pts);
+		}
+		
+		function vote_point(){
+			update_points(<?php echo -COST_VOTE ?>);
+		}
+		
+		function flash_point(){
+			update_points(<?php echo -COST_FLASH ?>);
+		}
+		
+		function comment_point(){
+			update_points(<?php echo -COST_COMMENT ?>);
+		}
+</script>
+<body>
+<div id="header">
+	<div id="dedicaces-container">
+		<ul id="dedicaces">
+		<?php
+		foreach ($this->dedicaces as $d): ?>
+			<li>
+				<span class="username"><?php echo $this->linkTag($d->nickname, array('controller' => 'user', 'action' => 'profile', 'username' => $d->nickname)); ?></span>
+				<span class="normal">:</span><?php echo $this->linkTag($d->content, array('controller' => 'user', 'action' => 'profile', 'username' => $d->nickname));?>
+			</li>
+		<?php endforeach; ?>
+		</ul>
+	</div>
+	<div id="money">
+		<span><?php echo $this->money ?></span>
+	</div>
+	<div id="lien-accueil"></div>
+	<div id="menu">
+		<div id="items">
+<?php
+$menus = array_reverse(array(
+	'concours' => $this->linkTag('&nbsp;', array('controller' => 'contest', 'action' => 'index', 'id' => null)),
+	'ranking' => $this->linkTag('&nbsp;', array('controller' => 'classement', 'action' => 'index', 'id' => null)),
+	'next' => $this->linkTag('&nbsp;', array('controller' => 'matching', 'action' => 'random')),
+	'messagerie' => $this->linkTag('&nbsp;', array('controller' => 'message', 'action' => 'inbox', 'id' => null)),
+	'profile' => $this->linkTag('&nbsp;', array('controller' => 'user', 'action' => 'profile', 'id' => null)),
+	'vip' => $this->linkTag('&nbsp;', array('controller' => 'vip', 'action' => 'index', 'id' => null))
+));
+?>
+			<ul>
+			<?php foreach ($menus as $mid => $menu): ?>
+				<li id="menu-<?php echo $mid;?>" class="<?php echo ($this->whoami == $mid) ? "selected" : ""; ?>">
+					<?php echo $menu; ?>
+				</li>
+			<?php endforeach; ?>
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="content">
+	<div id="main">
+		<?php echo $this->layout()->content; ?>
+	</div>
+</div>
+<div id="footer"></div>
+<script
+	src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php"
+	type="text/javascript"></script>
+
+<script type="text/javascript">
+//<![CDATA[ 
+	FB_RequireFeatures(["XFBML"], function() {
+		FB.CanvasClient.startTimerToSizeToContent();
+		FB.Facebook.init("776c654fb1ff0da42ff669fd5e3841d6", "<?php $this->baseUrl("Channel/xd_receiver.htm"); ?>");
+	});
+
+	$(function(){
+		$("ul#dedicaces").liScroll({travelocity: 0.05}).css("visibility", "visible"); }
+	); 
+//]]> 
+</script>
+
+</body>
+</html>
